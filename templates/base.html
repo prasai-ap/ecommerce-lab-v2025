@@ -137,10 +137,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('cart') }}">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span id="cartCount" class="badge badge-accent ml-1" data-currency="Rs">0</span>
+                            {% set cart_count = session.cart|length if session.cart is defined else 0 %}
+                                <i class="fas fa-shopping-cart"></i> Cart ({{ cart_count }})
+                            </span>
                         </a>
                     </li>
+
                     {% if session.user_id %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
@@ -160,9 +162,10 @@
                             </a>
                             {% endif %}
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url_for('logout') }}">
+                            <a class="dropdown-item" href="{{ url_for('logout') }}" id="logoutBtn">
                                 <i class="fas fa-sign-out-alt mr-2"></i>Sign Out
                             </a>
+
                         </div>
                     </li>
                     {% else %}
@@ -284,7 +287,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+
+ document.addEventListener('DOMContentLoaded', () => {
+    // Update cart count visually from localStorage if used
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cartCount = document.getElementById('cartCount');
+    if (cartCount) {
+      cartCount.textContent = cart.length;
+    }
+
+    // Clear cart & wishlist on logout
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('cart');
+        localStorage.removeItem('wishlist'); // optional
+      });
+    }
+  });
 </script>
+
 {% endblock %}
+
 </body>
 </html>

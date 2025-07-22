@@ -280,7 +280,14 @@ def converse():
 def cart():
     cart_items = session.get('cart', [])
     total = sum(item['price'] * item['quantity'] for item in cart_items)
-    return render_template('cart.html', cart_items=cart_items, total=total)
+    return render_template("cart.html", cart_items=cart_items, total=total)
+
+# logout route
+@app.route('/logout')
+def logout():
+    session.clear()  # Clears the cart and user data
+    return redirect(url_for('login'))
+
 
 
 @app.route('/checkout')
@@ -511,10 +518,7 @@ def login():
 
 
 
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('index'))
+
 
 
 @app.route('/profile')
