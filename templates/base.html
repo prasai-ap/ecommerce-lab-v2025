@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Resh - Premium Shoe Store{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link rel="icon" type="image" href="{{ url_for('static', filename='icons/resh.jpg') }}">
+
+    {% block extra_head %}{% endblock %}
+<style>
+.admin-nav .nav-link {
+    color: #333;
+    background-color: transparent;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.admin-nav .nav-link:hover {
+    background-color: #fff;
+    color: black;
+}
+
+.admin-nav .nav-link.active {
+    background-color: white;
+    color: black;
+}
+
+.profile-nav .nav-link {
+    color: #333;
+    background-color: transparent;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 0.25rem;
+    padding: 10px 15px;
+}
+
+.profile-nav .nav-link:hover {
+    background-color: white; /* Bootstrap info color */
+    color: black;
+}
+
+.profile-nav .nav-link.active {
+    background-color: white; /* Darker info */
+    color: black;
+}
+.product-image {
+  position: relative;
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 20; /* above overlay */
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #ff4757; /* heart color */
+  transition: color 0.3s ease;
+}
+
+.wishlist-btn:disabled {
+  cursor: default;
+  color: #e74c3c; /* darker red for added */
+}
+
+.product-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 10; /* below wishlist btn */
+  background: rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-image:hover .product-overlay {
+  opacity: 1;
+}
+
+</style>
+
+
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-surface fixed-top">
+        <div class="container">
+            <a class="navbar-brand font-weight-bold flex items-center space-x-2" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='/images/resh.jpg') }}" alt="Resh Logo"
+                     class="logo"  />
+                <span class="text-accent">Resh</span>
+            </a>
+
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="brandsDropdown" role="button" data-toggle="dropdown">
+                            Brands
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ url_for('nike') }}">Nike</a>
+                            <a class="dropdown-item" href="{{ url_for('adidas') }}">Adidas</a>
+                            <a class="dropdown-item" href="{{ url_for('puma') }}">Puma</a>
+                            <a class="dropdown-item" href="{{ url_for('newbalance') }}">New Balance</a>
+                            <a class="dropdown-item" href="{{ url_for('converse') }}">Converse</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('wishlist') }}">
+                            <i class="fas fa-heart mr-1"></i>Wishlist
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('track_order') }}">Track Order</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button id="themeToggle" class="btn btn-outline-secondary btn-sm mr-2">
+                            <i class="fas fa-moon" id="themeIcon"></i>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('cart') }}">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cartCount" class="badge badge-accent ml-1" data-currency="Rs">0</span>
+                        </a>
+                    </li>
+                    {% if session.user_id %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
+                            <i class="fas fa-user-circle mr-1"></i>{{ session.user_name }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="{{ url_for('profile') }}">
+                                <i class="fas fa-user mr-2"></i>Profile
+                            </a>
+                            <a class="dropdown-item" href="{{ url_for('profile') }}#orders">
+                                <i class="fas fa-shopping-bag mr-2"></i>My Orders
+                            </a>
+                            {% if session.is_admin %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url_for('admin') }}">
+                                <i class="fas fa-cog mr-2"></i>Admin Panel
+                            </a>
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url_for('logout') }}">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Sign Out
+                            </a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link inline-block bg-accent text-white ml-2 px-3 py-2 rounded hover:bg-accent-dark transition
+                         " href="{{ url_for('signup') }}">Get Started</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface border-top mt-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <img src="{{ url_for('static', filename='/images/resh.jpg') }}" alt="Resh Logo"
+                     class="logo"  />
+                    <span class="text-accent">Resh</span>
+                    <p class="text-secondary">Your premium destination for authentic branded shoes.</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="font-weight-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('about') }}" class="text-secondary">About Us</a></li>
+                        <li><a href="{{ url_for('contact') }}" class="text-secondary">Contact</a></li>
+                        <li><a href="{{ url_for('shipping') }}" class="text-secondary">Shipping Info</a></li>
+                        <li><a href="{{ url_for('returns') }}" class="text-secondary">Returns</a></li>
+                        <li><a href="{{ url_for('size_guide') }}" class="text-secondary">Size Guide</a></li>
+                        <li><a href="{{ url_for('newsletter') }}" class="text-secondary">Newsletter</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="font-weight-bold mb-3">Brands</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('nike') }}" class="text-secondary">Nike</a></li>
+                        <li><a href="{{ url_for('adidas') }}" class="text-secondary">Adidas</a></li>
+                        <li><a href="{{ url_for('puma') }}" class="text-secondary">Puma</a></li>
+                        <li><a href="{{ url_for('newbalance') }}" class="text-secondary">New Balance</a></li>
+                        <li><a href="{{ url_for('converse') }}" class="text-secondary">Converse</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h6 class="font-weight-bold mb-3">Legal</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('privacy') }}" class="text-secondary">Privacy Policy</a></li>
+                        <li><a href="{{ url_for('terms') }}" class="text-secondary">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-secondary mb-0">&copy; 2025 Resh. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-right">
+                    <div class="social-links">
+                        <a href="#" class="text-secondary mr-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-secondary mr-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-secondary mr-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-secondary"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // On page load, mark already added wishlist items as added
+  const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+  document.querySelectorAll('.wishlist-btn').forEach(btn => {
+    try {
+      const product = JSON.parse(btn.dataset.product);
+      if (wishlist.find(item => item.id === product.id)) {
+        btn.innerHTML = '<i class="fas fa-heart"></i> Added';
+        btn.disabled = true;
+      }
+    } catch (e) {
+      console.error('Invalid product data on wishlist button', e);
+    }
+  });
+
+  // Add to wishlist on click
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.wishlist-btn');
+    if (!btn) return;
+
+    try {
+      const productData = JSON.parse(btn.dataset.product);
+      let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
+      if (!wishlist.find(item => item.id === productData.id)) {
+        wishlist.push(productData);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        btn.innerHTML = '<i class="fas fa-heart"></i> Added';
+        btn.disabled = true;
+      }
+    } catch (err) {
+      console.error('Error parsing product data:', err);
+    }
+  });
+});
+</script>
+{% endblock %}
+</body>
+</html>

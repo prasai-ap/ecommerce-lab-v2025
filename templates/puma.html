@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+<link rel="icon" type="image" href="{{ url_for('static', filename='icons/Puma_complete_logo.png') }}">
+{% block title %}{{ brand }} Shoes - Resh{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="brand-header text-center mb-5">
+        <h1 class="display-4 font-weight-bold">{{ brand }} Collection</h1>
+        <p class="lead text-secondary">Discover the latest {{ brand }} shoes</p>
+    </div>
+    
+    <div class="row">
+        {% for product in products %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" class="img-fluid">
+                    <button class="wishlist-btn" data-product='{"id": {{ product.id }}, "name": "{{ product.name }}", "price": {{ product.price }}, "brand": "{{ brand }}"}'>
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <div class="product-overlay">
+                        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-accent">View Details</a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="brand-badge">{{ brand }}</div>
+                    <h5 class="product-title">{{ product.name }}</h5>
+                    <p class="product-description">{{ product.description[:80] }}...</p>
+                    <div class="product-price">Rs.{{ "{:,.0f}".format(product.price) }}</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

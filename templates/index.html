@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <h1 class="display-4 font-weight-bold mb-4">
+                    Step Into <span class="text-accent">Excellence</span>
+                </h1>
+                <p class="lead mb-4">Discover the latest collection of premium branded shoes from Nike, Adidas, Puma, New Balance, and Converse at Resh.</p>
+                <div class="hero-buttons">
+                    <a href="#featured" class="btn btn-accent btn-lg mr-3">Shop Now</a>
+                    <a href="#brands" class="btn btn-outline-primary btn-lg">Explore Brands</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image">
+                   <img src="{{ url_for('static', filename='nike/mainpageimage.jpg') }}" alt="Shoe Collection" class="img-fluid" width="600" height="500">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section id="featured" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 font-weight-bold">Featured Products</h2>
+            <p class="lead text-secondary">Handpicked favorites from our premium collection</p>
+        </div>
+
+        <div class="row">
+            {% for product in featured_products %}
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="product-card">
+                <div class="product-image">
+                  <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" class="img-fluid">
+                  <button class="wishlist-btn" data-product='{{ {"id": product.id, "name": product.name, "price": product.price, "brand": product.brand, "image": product.image} | tojson | safe }}'>
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <div class="product-overlay">
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-accent">View Details</a>
+                  </div>
+                </div>
+
+                <div class="product-info">
+                  <div class="brand-badge">{{ product.brand|title }}</div>
+                  <h5 class="product-title">{{ product.name }}</h5>
+                  <p class="product-description">{{ product.description[:80] }}...</p>
+                  <div class="product-price">Rs.{{ "{:,.0f}".format(product.price) }}</div>
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- Brands Section -->
+<section id="brands" class="py-5 bg-surface">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 font-weight-bold">Shop by Brand</h2>
+            <p class="lead text-secondary">Explore our collection of premium shoe brands</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{{ url_for('nike') }}" class="brand-card">
+                    <div class="brand-logo">
+                        <img src="{{ url_for('static', filename='images/Logo_NIKE.svg.png') }}" alt="Nike"
+                             class="img-fluid" width="120" height="80">
+                    </div>
+                    <h6 class="brand-name">Nike</h6>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{{ url_for('adidas') }}" class="brand-card">
+                    <div class="brand-logo">
+                        <img src="{{ url_for('static', filename='images/Adidas_Logo.png') }}" alt="Adidas"
+                             class="img-fluid" width="120" height="80">
+                    </div>
+                    <h6 class="brand-name">Adidas</h6>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{{ url_for('puma') }}" class="brand-card">
+                    <div class="brand-logo">
+                        <img src="{{ url_for('static', filename='images/Puma_complete_logo.png') }}" alt="Puma"
+                             class="img-fluid" width="120" height="80">
+                    </div>
+                    <h6 class="brand-name">Puma</h6>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{{ url_for('newbalance') }}" class="brand-card">
+                    <div class="brand-logo">
+                        <img src="{{ url_for('static', filename='images/Newbalancelogo.png') }}" alt="New Balance"
+                             class="img-fluid" width="120" height="80">
+                    </div>
+                    <h6 class="brand-name">New Balance</h6>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{{ url_for('converse') }}" class="brand-card">
+                    <div class="brand-logo">
+                        <img src="{{ url_for('static', filename='images/Converse_logo.svg.png') }}" class="img-fluid"
+                             alt="Converse" width="120" height="80">
+                    </div>
+                    <h6 class="brand-name">Converse</h6>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <div class="feature-icon">
+                    <i class="fas fa-shipping-fast fa-3x text-accent mb-3"></i>
+                </div>
+                <h5 class="font-weight-bold">Free Shipping</h5>
+                <p class="text-secondary">Free shipping on orders over ₹8,300</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="feature-icon">
+                    <i class="fas fa-undo fa-3x text-accent mb-3"></i>
+                </div>
+                <h5 class="font-weight-bold">Easy Returns</h5>
+                <p class="text-secondary">30-day return policy</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt fa-3x text-accent mb-3"></i>
+                </div>
+                <h5 class="font-weight-bold">Authentic Products</h5>
+                <p class="text-secondary">100% genuine branded shoes</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

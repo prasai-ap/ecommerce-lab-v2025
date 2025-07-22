@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmation - Resh{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center">
+        <i class="fas fa-check-circle fa-5x text-success mb-4"></i>
+        <h1 class="display-4 font-weight-bold mb-3">Order Confirmed!</h1>
+        <div class="order-details mb-4">
+            <h4>Order Number: <span class="text-accent">{{ order_number }}</span></h4>
+        </div>
+        <p class="lead mb-4">Thank you for your purchase. Your order has been successfully processed.</p>
+        <p class="text-secondary mb-4">You will receive an email confirmation shortly with your order details and tracking information.</p>
+        <a href="{{ url_for('index') }}" class="btn btn-accent btn-lg">Continue Shopping</a>
+    </div>
+</div>
+{% endblock %}

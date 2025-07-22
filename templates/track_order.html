@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Track Your Order - Resh{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="display-4 font-weight-bold text-center mb-5">Track Your Order</h1>
+            
+            <div class="track-order-form">
+                <form class="mb-5">
+                    <div class="form-group">
+                        <label for="orderNumber">Order Number</label>
+                        <input type="text" class="form-control" id="orderNumber" placeholder="Enter your order number (e.g., SS123456)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email address" required>
+                    </div>
+                    <button type="submit" class="btn btn-accent btn-block">Track Order</button>
+                </form>
+            </div>
+            
+            <div class="order-status" id="orderStatus" style="display: none;">
+                <div class="status-card">
+                    <h4 class="mb-4">Order Status</h4>
+                    <div class="status-timeline">
+                        <div class="status-item active">
+                            <div class="status-icon">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="status-content">
+                                <h6>Order Confirmed</h6>
+                                <p class="text-secondary">Your order has been received and confirmed</p>
+                                <small class="text-muted">2 hours ago</small>
+                            </div>
+                        </div>
+                        <div class="status-item active">
+                            <div class="status-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="status-content">
+                                <h6>Processing</h6>
+                                <p class="text-secondary">Your order is being prepared for shipment</p>
+                                <small class="text-muted">1 hour ago</small>
+                            </div>
+                        </div>
+                        <div class="status-item current">
+                            <div class="status-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="status-content">
+                                <h6>Shipped</h6>
+                                <p class="text-secondary">Your order is on its way</p>
+                                <small class="text-muted">Tracking: TRK123456789</small>
+                            </div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="status-content">
+                                <h6>Delivered</h6>
+                                <p class="text-secondary">Your order has been delivered</p>
+                                <small class="text-muted">Expected: Tomorrow</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="help-section mt-5">
+                <h4 class="mb-3">Need Help?</h4>
+                <p>If you have any questions about your order, please contact our customer support:</p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-phone text-accent mr-2"></i> +91-9876543210</li>
+                    <li><i class="fas fa-envelope text-accent mr-2"></i> support@solestyle.com</li>
+                    <li><i class="fas fa-clock text-accent mr-2"></i> Mon-Sat: 9AM-8PM IST</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.querySelector('.track-order-form form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('orderStatus').style.display = 'block';
+    document.getElementById('orderStatus').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+{% endblock %}

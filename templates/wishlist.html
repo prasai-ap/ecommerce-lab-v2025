@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}My Wishlist - Resh{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h1 class="display-4 font-weight-bold text-center mb-5">My Wishlist</h1>
+
+  <div id="wishlistItems" class="row">
+    <!-- Wishlist items will be populated by JavaScript -->
+  </div>
+
+  <div id="emptyWishlist" class="text-center py-5" style="display:none;">
+    <i class="fas fa-heart fa-5x text-secondary mb-4"></i>
+    <h3>Your wishlist is empty</h3>
+    <p class="text-secondary mb-4">Save your favorite shoes to your wishlist!</p>
+    <a href="{{ url_for('index') }}" class="btn btn-accent">Start Shopping</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+  class WishlistManager {
+    constructor() {
+      this.wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      this.displayWishlist();
+    }
+
+    displayWishlist() {
+      const container = document.getElementById('wishlistItems');
+      const emptyState = document.getElementById('emptyWishlist');
+
+      if (!container || !emptyState) return;
+
+      if (this.wishlist.length === 0) {
+        container.style.display = 'none';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      container.style.display = 'flex';
+      emptyState.style.display = 'none';
+
+      container.innerHTML = this.wishlist.map(item => `
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="product-card">
+            <div class="product-image">
+              <img src="/static/${item.image || 'placeholder.svg'}" alt="${item.name}" class="img-fluid">
+              <div class="product-overlay">
+                <a href="/product/${item.id}" class="btn btn-accent">View Details</a>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="brand-badge">${item.brand}</div>
+              <h5 class="product-title">${item.name}</h5>
+              <div class="product-price">₹${item.price.toLocaleString()}</div>
+              <button class="btn btn-outline-danger btn-sm mt-2" onclick="wishlistManager.removeFromWishlist(${item.id})">
+                <i class="fas fa-trash mr-1"></i>Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    removeFromWishlist(productId) {
+      this.wishlist = this.wishlist.filter(item => item.id !== productId);
+      localStorage.setItem('wishlist', JSON.stringify(this.wishlist));
+      this.displayWishlist();
+    }
+  }
+
+  window.wishlistManager = new WishlistManager();
+});
+
+
+</script>
+{% endblock %}

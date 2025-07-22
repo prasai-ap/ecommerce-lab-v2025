@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout - Resh{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    {% if not session.user_id %}
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="auth-required text-center">
+                <i class="fas fa-lock fa-3x text-accent mb-4"></i>
+                <h3>Login Required</h3>
+                <p class="text-secondary mb-4">Please login to continue with checkout</p>
+                <a href="{{ url_for('login') }}" class="btn btn-accent btn-lg mr-3">Login</a>
+                <a href="{{ url_for('signup') }}" class="btn btn-outline-primary btn-lg">Sign Up</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <h1 class="mb-4">Checkout</h1>
+    
+    <div class="row">
+        <div class="col-lg-8">
+            <form method="POST" action="{{ url_for('process_checkout') }}" class="checkout-form">
+                <div class="checkout-section">
+                    <h4 class="mb-3">Shipping Information</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ session.user_name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" id="city" name="city" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="state">State</label>
+                            <input type="text" class="form-control" id="state" name="state" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="zip">ZIP Code</label>
+                            <input type="text" class="form-control" id="zip" name="zip" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                    </div>
+                </div>
+                
+                <div class="checkout-section">
+                    <h4 class="mb-3">Payment Information</h4>
+                    <div class="payment-mockup">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            This is a demo payment interface. No real payment will be processed.
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cardName">Name on Card</label>
+                            <input type="text" class="form-control" id="cardName" name="cardName" placeholder="John Doe" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" class="form-control" id="expiry" name="expiry" placeholder="MM/YY" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cvv">CVV</label>
+                                <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-accent btn-lg btn-block">
+                    <i class="fas fa-credit-card mr-2"></i>Place Order
+                </button>
+            </form>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="order-summary">
+                <h5 class="mb-3">Order Summary</h5>
+                {% for item in cart_items %}
+                <div class="order-item">
+                    <div class="d-flex justify-content-between">
+                        <span>{{ item.name }} ({{ item.size }})</span>
+                        <span>Rs.{{ "{:,.0f}".format(item.price * item.quantity) }}</span>
+                    </div>
+                    <small class="text-secondary">Qty: {{ item.quantity }}</small>
+                </div>
+                {% endfor %}
+                
+                <hr>
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span>Rs.{{ "{:,.0f}".format(total) }}</span>
+                </div>
+                <div class="summary-row tax-row">
+                    <span>Tax (10%):</span>
+                    <span>Rs.{{ "{:,.0f}".format(total * 0.10) }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping:</span>
+                    <span>{% if total >= 8300 %}Free{% else %}₹830{% endif %}</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span>Rs.{{ "{:,.0f}".format(total + (total * 0.10) + (0 if total >= 8300 else 830)) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

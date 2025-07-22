@@ -1,0 +1,120 @@
+{
+  "nike": [
+    {
+      "id": 1,
+      "name": "Nike Air Max 270",
+      "price": 12450.0,
+      "image": "nike/air-max-270.jpg",
+      "description": "The Nike Air Max 270 delivers visible cushioning under every step with the largest heel Max Air unit yet.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": true
+    },
+    {
+      "id": 2,
+      "name": "Nike React Infinity Run",
+      "price": 13280.0,
+      "image": "nike/react-infinity.jpg",
+      "description": "Designed to help reduce injury and keep you running. More foam and improved upper design.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": false
+    },
+    {
+      "id": 3,
+      "name": "Nike Air Force 1",
+      "price": 7470.0,
+      "image": "nike/air-force-1.jpg",
+      "description": "The radiance lives on in the Nike Air Force 1, the basketball original.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": true
+    }
+  ],
+  "adidas": [
+    {
+      "id": 4,
+      "name": "Adidas Ultraboost 22",
+      "price": 14940.0,
+      "image": "adidas/ultraboost-22.jpg",
+      "description": "Our most responsive running shoe yet. Made with Primeknit upper.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": true
+    },
+    {
+      "id": 5,
+      "name": "Adidas Stan Smith",
+      "price": 6640.0,
+      "image": "adidas/stan-smith.jpg",
+      "description": "The iconic tennis shoe that never goes out of style. Clean and classic.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": false
+    },
+    {
+      "id": 6,
+      "name": "Adidas NMD R1",
+      "price": 10790.0,
+      "image": "adidas/nmd-r1.jpg",
+      "description": "Street-ready style with Boost cushioning technology.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": true
+    }
+  ],
+  "puma": [
+    {
+      "id": 7,
+      "name": "Puma RS-X",
+      "price": 9130.0,
+      "image": "puma/rs-x.jpg",
+      "description": "Bold design meets maximum comfort. Retro-futuristic style.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": true
+    },
+    {
+      "id": 8,
+      "name": "Puma Suede Classic",
+      "price": 5395.0,
+      "image": "puma/suede-classic.jpg",
+      "description": "The original B-Boy shoe. Timeless suede construction.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": false
+    }
+  ],
+  "newbalance": [
+    {
+      "id": 9,
+      "name": "New Balance 990v5",
+      "price": 14525.0,
+      "image": "newbalance/990v5.jpg",
+      "description": "Made in USA premium running shoe with superior comfort.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": false
+    },
+    {
+      "id": 10,
+      "name": "New Balance 574",
+      "price": 6640.0,
+      "image": "newbalance/574.jpg",
+      "description": "The most New Balance shoe ever. Classic comfort and style.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": true
+    }
+  ],
+  "converse": [
+    {
+      "id": 11,
+      "name": "Converse Chuck Taylor All Star",
+      "price": 4565.0,
+      "image": "converse/chuck-taylor.jpg",
+      "description": "The original basketball shoe, now a timeless classic.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": true
+    },
+    {
+      "id": 12,
+      "name": "Converse Chuck 70",
+      "price": 7055.0,
+      "image": "converse/chuck-70.jpg",
+      "description": "Premium materials and enhanced comfort in the classic silhouette.",
+      "sizes": ["7", "8", "9", "10", "11", "12"],
+      "featured": false
+    }
+  ]
+}

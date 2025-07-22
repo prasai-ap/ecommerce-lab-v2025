@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Size Guide - Resh{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <h1 class="display-4 font-weight-bold text-center mb-5">Size Guide</h1>
+            
+            <div class="size-guide-content">
+                <div class="row mb-5">
+                    <div class="col-md-6">
+                        <h3 class="mb-3">How to Measure Your Feet</h3>
+                        <ol>
+                            <li>Place a piece of paper on the floor against a wall</li>
+                            <li>Step on the paper with your heel against the wall</li>
+                            <li>Mark the longest part of your foot on the paper</li>
+                            <li>Measure the distance from the wall to the mark</li>
+                            <li>Repeat for both feet and use the larger measurement</li>
+                        </ol>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="{{ url_for('static', filename='placeholder.svg') }}" alt="Foot Measurement Guide" class="img-fluid rounded">
+                    </div>
+                </div>
+                
+                <h3 class="mb-4">Size Charts</h3>
+                
+                <!-- Men's Size Chart -->
+                <div class="size-chart mb-5">
+                    <h4 class="mb-3">Men's Sizes</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>US Size</th>
+                                    <th>UK Size</th>
+                                    <th>EU Size</th>
+                                    <th>Foot Length (cm)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>7</td><td>6</td><td>40</td><td>25.0</td></tr>
+                                <tr><td>7.5</td><td>6.5</td><td>40.5</td><td>25.4</td></tr>
+                                <tr><td>8</td><td>7</td><td>41</td><td>25.8</td></tr>
+                                <tr><td>8.5</td><td>7.5</td><td>42</td><td>26.2</td></tr>
+                                <tr><td>9</td><td>8</td><td>42.5</td><td>26.7</td></tr>
+                                <tr><td>9.5</td><td>8.5</td><td>43</td><td>27.1</td></tr>
+                                <tr><td>10</td><td>9</td><td>44</td><td>27.5</td></tr>
+                                <tr><td>10.5</td><td>9.5</td><td>44.5</td><td>27.9</td></tr>
+                                <tr><td>11</td><td>10</td><td>45</td><td>28.3</td></tr>
+                                <tr><td>11.5</td><td>10.5</td><td>45.5</td><td>28.8</td></tr>
+                                <tr><td>12</td><td>11</td><td>46</td><td>29.2</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Women's Size Chart -->
+                <div class="size-chart mb-5">
+                    <h4 class="mb-3">Women's Sizes</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>US Size</th>
+                                    <th>UK Size</th>
+                                    <th>EU Size</th>
+                                    <th>Foot Length (cm)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>5</td><td>2.5</td><td>35</td><td>22.2</td></tr>
+                                <tr><td>5.5</td><td>3</td><td>35.5</td><td>22.5</td></tr>
+                                <tr><td>6</td><td>3.5</td><td>36</td><td>22.9</td></tr>
+                                <tr><td>6.5</td><td>4</td><td>37</td><td>23.3</td></tr>
+                                <tr><td>7</td><td>4.5</td><td>37.5</td><td>23.7</td></tr>
+                                <tr><td>7.5</td><td>5</td><td>38</td><td>24.1</td></tr>
+                                <tr><td>8</td><td>5.5</td><td>38.5</td><td>24.5</td></tr>
+                                <tr><td>8.5</td><td>6</td><td>39</td><td>24.9</td></tr>
+                                <tr><td>9</td><td>6.5</td><td>40</td><td>25.2</td></tr>
+                                <tr><td>9.5</td><td>7</td><td>40.5</td><td>25.6</td></tr>
+                                <tr><td>10</td><td>7.5</td><td>41</td><td>26.0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Brand-Specific Notes -->
+                <div class="brand-notes">
+                    <h4 class="mb-3">Brand-Specific Sizing Notes</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="brand-note">
+                                <h6><strong>Nike</strong></h6>
+                                <p>Nike shoes typically run true to size. For running shoes, consider going up 0.5 size for extra comfort.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="brand-note">
+                                <h6><strong>Adidas</strong></h6>
+                                <p>Adidas shoes generally run true to size. Ultraboost models may run slightly small.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="brand-note">
+                                <h6><strong>Puma</strong></h6>
+                                <p>Puma shoes typically run true to size. Some lifestyle models may run slightly large.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="brand-note">
+                                <h6><strong>New Balance</strong></h6>
+                                <p>New Balance offers various width options. Most models run true to size.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="brand-note">
+                                <h6><strong>Converse</strong></h6>
+                                <p>Converse shoes typically run large. Consider going down 0.5 to 1 full size.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sizing-tips mt-5">
+                    <h4 class="mb-3">Sizing Tips</h4>
+                    <ul>
+                        <li>Measure your feet in the evening when they're at their largest</li>
+                        <li>Always measure both feet and use the larger measurement</li>
+                        <li>Consider the type of socks you'll wear with the shoes</li>
+                        <li>If you're between sizes, generally go with the larger size</li>
+                        <li>Remember that different brands may fit differently</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

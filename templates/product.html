@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - Resh{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="product-image-main">
+                <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" class="img-fluid rounded">
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="product-details">
+                <div class="brand-badge mb-2">{{ product.brand|title }}</div>
+                <h1 class="product-title mb-3">{{ product.name }}</h1>
+                <div class="product-price mb-4">Rs.{{ "{:,.0f}".format(product.price) }}</div>
+                <p class="product-description mb-4">{{ product.description }}</p>
+
+                <form id="addToCartForm" class="add-to-cart-form">
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+
+                    <!-- Size Selection -->
+                    <div class="form-group">
+                        <label class="font-weight-bold">Size:</label>
+                        <div class="size-selector mt-2">
+                            {% for size in product.sizes %}
+                            <button type="button" class="size-option btn btn-outline-secondary mr-2 mb-2" data-size="{{ size }}">{{ size }}</button>
+                            {% endfor %}
+                        </div>
+                        <input type="hidden" name="size" id="selectedSize" required>
+                    </div>
+
+                    <!-- Quantity Selection -->
+                    <div class="form-group mb-3">
+                        <label for="quantity" class="font-weight-bold">Quantity:</label>
+                        <select name="quantity" id="quantity" class="form-control w-auto">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-accent btn-lg btn-block mb-3">
+                        <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+                    </button>
+                </form>
+
+                <!-- Product Features -->
+                <div class="product-features mt-4">
+                    <div class="feature-item">
+                        <i class="fas fa-shipping-fast text-accent mr-2"></i>
+                        <span>Free shipping on orders over Rs.8,300</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-undo text-accent mr-2"></i>
+                        <span>30-day return policy</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt text-accent mr-2"></i>
+                        <span>100% authentic guarantee</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+$(document).ready(function() {
+    // Size selection
+    $('.size-option').click(function() {
+        $('.size-option').removeClass('active btn-primary').addClass('btn-outline-secondary');
+        $(this).addClass('active btn-primary').removeClass('btn-outline-secondary');
+        $('#selectedSize').val($(this).data('size'));
+    });
+
+    // Add to cart form submission
+    $('#addToCartForm').submit(function(e) {
+        e.preventDefault();
+
+        if (!$('#selectedSize').val()) {
+            alert('Please select a size');
+            return;
+        }
+
+        $.ajax({
+            url: '{{ url_for("add_to_cart") }}',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.success) {
+                    alert('Item added to cart!');
+                    updateCartCount(); // Optional: implement if needed
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function() {
+                alert('Error adding item to cart');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

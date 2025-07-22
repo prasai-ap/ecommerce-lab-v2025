@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Shipping Information - Resh{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="display-4 font-weight-bold text-center mb-5">Shipping Information</h1>
+            
+            <div class="shipping-content">
+                <h3 class="mt-5 mb-3">Shipping Options</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Shipping Method</th>
+                                <th>Delivery Time</th>
+                                <th>Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Standard Shipping</td>
+                                <td>5-7 business days</td>
+                                <td>Rs.830 (Free on orders Rs.8,300+)</td>
+                            </tr>
+                            <tr>
+                                <td>Express Shipping</td>
+                                <td>2-3 business days</td>
+                                <td>Rs.1,660</td>
+                            </tr>
+                            <tr>
+                                <td>Overnight Shipping</td>
+                                <td>1 business day</td>
+                                <td>Rs.3,320</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3 class="mt-5 mb-3">Processing Time</h3>
+                <p>Orders are typically processed within 1-2 business days. You will receive a tracking number once your order ships.</p>
+                
+                <h3 class="mt-5 mb-3">International Shipping</h3>
+                <p>We currently ship to the United States and Canada. International shipping rates and delivery times vary by location.</p>
+                
+                <h3 class="mt-5 mb-3">Order Tracking</h3>
+                <p>Once your order ships, you'll receive an email with tracking information. You can also track your order by logging into your account.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

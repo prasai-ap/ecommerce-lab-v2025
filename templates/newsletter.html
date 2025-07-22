@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Newsletter - Resh{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 font-weight-bold mb-4">Stay Updated</h1>
+            <p class="lead mb-5">Subscribe to our newsletter and be the first to know about new arrivals, exclusive deals, and special offers!</p>
+            
+            <div class="newsletter-form">
+                <form class="mb-4">
+                    <div class="input-group input-group-lg">
+                        <input type="email" class="form-control" placeholder="Enter your email address" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-accent" type="submit">Subscribe</button>
+                        </div>
+                    </div>
+                </form>
+                <p class="text-secondary">
+                    <small>
+                        <i class="fas fa-lock mr-1"></i>
+                        We respect your privacy. Unsubscribe at any time.
+                    </small>
+                </p>
+            </div>
+            
+            <div class="newsletter-benefits mt-5">
+                <h4 class="mb-4">What you'll get:</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <i class="fas fa-tag fa-2x text-accent mb-2"></i>
+                        <h6>Exclusive Deals</h6>
+                        <p class="text-secondary">Special discounts only for subscribers</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <i class="fas fa-star fa-2x text-accent mb-2"></i>
+                        <h6>New Arrivals</h6>
+                        <p class="text-secondary">Be first to see latest collections</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <i class="fas fa-gift fa-2x text-accent mb-2"></i>
+                        <h6>Special Events</h6>
+                        <p class="text-secondary">Early access to sales and events</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.querySelector('.newsletter-form form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = this.querySelector('input[type="email"]').value;
+    
+    // Simulate subscription
+    const notification = document.createElement('div');
+    notification.className = 'alert alert-success';
+    notification.style.cssText = 'position: fixed; top: 100px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.textContent = 'Successfully subscribed to newsletter!';
+    document.body.appendChild(notification);
+    
+    setTimeout(() => notification.remove(), 3000);
+    this.reset();
+});
+</script>
+{% endblock %}
