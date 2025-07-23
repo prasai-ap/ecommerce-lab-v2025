@@ -219,13 +219,20 @@ def init_db():
         c.execute("INSERT INTO users (name, email, password_hash, is_admin) VALUES (?, ?, ?, ?)",
                   ('Admin User', 'admin@solestyle.com', admin_hash, True))
 
+    #wishlist table
+    c.execute('''CREATE TABLE IF NOT EXISTS wishlist (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        product_id INTEGER NOT NULL,
+        UNIQUE(user_id, product_id),
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    )''')
     conn.commit()
     conn.close()
 
 
 # Initialize database on startup
 init_db()
-
 
 @app.route('/')
 def index():
@@ -440,7 +447,23 @@ def track_order():
 
 @app.route('/wishlist')
 def wishlist():
-    return render_template('wishlist.html')
+    wishlist_items = []
+
+    if 'user_id' in session:
+        user_id = session['user_id']
+        conn = sqlite3.connect('ecommerce.db')
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        c.execute('SELECT product_id FROM wishlist WHERE user_id = ?', (user_id,))
+        product_ids = [row['product_id'] for row in c.fetchall()]
+        conn.close()
+
+        for brand, products in products_data.items():
+            for product in products:
+                if product['id'] in product_ids:
+                    product['brand'] = brand
+                    wishlist_items.append(product)
+    return render_template('wishlist.html', wishlist_items=wishlist_items)
 
 
 @app.route('/size-guide')
@@ -566,6 +589,23 @@ def admin():
 @app.context_processor
 def utility_processor():
     return dict(loads=json.loads)
+
+@app.route('/add_to_wishlist', methods=['POST'])
+@login_required
+def add_to_wishlist():
+    data = request.get_json()
+    product_id = data.get('product_id')
+
+    conn = sqlite3.connect('ecommerce.db')
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM wishlist WHERE user_id = ? AND product_id = ?", (session['user_id'], product_id))
+    if not c.fetchone():
+        c.execute("INSERT INTO wishlist (user_id, product_id) VALUES (?, ?)", (session['user_id'], product_id))
+        conn.commit()
+
+    conn.close()
+    return jsonify({'success': True})
 
 if __name__ == '__main__':
     app.run(debug=True)

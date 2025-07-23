@@ -34,3 +34,40 @@
     </div>
 </div>
 {% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const isLoggedIn = {{ 'true' if session.get('user_id') else 'false' }};
+
+  document.querySelectorAll('.wishlist-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const product = JSON.parse(button.getAttribute('data-product'));
+
+      if (isLoggedIn) {
+        fetch('/add_to_wishlist', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ product_id: product.id })
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert('Added to wishlist');
+        });
+      } else {
+        // Use localStorage fallback
+        let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+        if (!wishlist.find(p => p.id === product.id)) {
+          wishlist.push(product);
+          localStorage.setItem('wishlist', JSON.stringify(wishlist));
+          alert('Saved to wishlist (guest)');
+        }
+      }
+    });
+  });
+});
+</script>
+{% endblock %}
+
