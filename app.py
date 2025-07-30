@@ -604,7 +604,7 @@ def add_to_wishlist():
         c.execute("INSERT INTO wishlist (user_id, product_id) VALUES (?, ?)", (session['user_id'], product_id))
         conn.commit()
 
-    conn.close()
+    # conn.close()
     return jsonify({'success': True})
 
 if __name__ == '__main__':
